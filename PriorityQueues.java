@@ -58,46 +58,30 @@ public class PriorityQueues {
 	// 	}
 	// }
 
-   
-    public static ArrayList<Integer> kLargest(int input[], int k) {
+	public static int buyTicket(int input[], int k) {
 		/* Your class should be named Solution
 		* Don't write main().
 		* Don't read input, it is passed as function argument.
 		* Return output and don't print it.
 		* Taking input and printing output is handled automatically.
 		*/
-        PriorityQueue<Integer> pq = new PriorityQueue<Integer>() ; 
-		for(int i = 0 ; i < k ; i++){
-			pq.add(input[i]) ;
-		}
-		for(int i = k ; i < input.length ; i++){
-			if(pq.peek() < input[i]){
-			pq.poll() ; 
-			pq.add(input[i]) ; 
-		}
-	}
-		ArrayList <Integer> arr = new ArrayList<Integer>() ; 
-		for(int i = 0 ; i < k ; i++){
-			arr.add(pq.poll()) ; 
-		}
-
-		return arr ;
-	}
-
-    static Scanner s = new Scanner(System.in);
-
-	public static void main(String[] args) {
-		int n = s.nextInt();
-		int input[] = new int[n];
-		for(int j = 0; j < n; j++) {
-			input[j] = s.nextInt();
-		}
-		int k = s.nextInt();
-		ArrayList<Integer> output = kLargest(input, k);
-		for(int i : output) {
-			System.out.println(i);
-		}
+	PriorityQueue<Integer> pq = new PriorityQueue<Integer> () ; 
 		
 	}
+    
+    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));;
+	static StringTokenizer st;
 
+	public static void main(String[] args) throws NumberFormatException, IOException {
+		st = new StringTokenizer(br.readLine());
+		int n = Integer.parseInt(st.nextToken());
+		st = new StringTokenizer(br.readLine());
+		int input[] = new int[n];
+		for (int i = 0; i < n; i++) {
+			input[i] = Integer.parseInt(st.nextToken());
+		}
+		st = new StringTokenizer(br.readLine());
+		int k = Integer.parseInt(st.nextToken());
+		System.out.println(buyTicket(input, k));
+	}
 }
