@@ -99,6 +99,133 @@ public class Recusion {
    
     }
 
+
+    public static void printSubsetsSumTok(int input[], int k) {
+		// Write your code here
+		int[][] output = subsetsSumKHelper(input,k,0);
+        for (int i=0;i<output.length;i++)
+        {
+            int[] arr = output[i];
+            for (int j=0;j<arr.length;j++)
+            {
+                System.out.print(arr[j]+" ");
+            }
+            System.out.println();
+        }
+	}
+    
+    
+    private static int[][] subsetsSumKHelper(int input[], int k, int startIndex)
+    {
+        
+        if (startIndex==input.length)
+        {
+            int arr[][];
+            if (k==0)
+            {
+                 arr = new int[1][0];
+            }
+            else
+            {
+                arr = new int[0][0];
+            }
+            return arr;
+        }
+        
+       
+        int temp1[][] = subsetsSumKHelper(input,k-input[startIndex],startIndex+1);
+        int temp2[][] = subsetsSumKHelper(input,k,startIndex+1);
+        
+      
+        int output[][] = new int[temp1.length+temp2.length][];
+        for (int i=0;i<temp2.length;i++)
+        {
+            output[i] = new int[temp2[i].length];
+            for (int j=0;j<temp2[i].length;j++)
+            {
+                output[i][j]=temp2[i][j];
+            }
+        } 
+        
+        for (int i=0;i<temp1.length;i++)
+        {
+            output[i+temp2.length] = new int[temp1[i].length+1];
+            output[i+temp2.length][0] = input[startIndex];
+            for (int j=1;j<output[i+temp2.length].length;j++)
+            {
+                output[i+temp2.length][j]=temp1[i][j-1];
+            }
+        }
+        
+        return output;
+    }
+
+    static Scanner s = new Scanner(System.in);
+	public static int[] takeInput() {
+		int size = s.nextInt();
+		int arr[] = new int[size];
+		for (int i = 0; i < size; i++) {
+			arr[i] = s.nextInt();
+		}
+		return arr;
+	}
+
+    public static void permutations(String input){
+        permutationsHelper(input,"");
+
+	}
+    
+    private static void permutationsHelper(String input, String output)
+    {
+        if (input.length()==0)
+            System.out.println(output);
+        
+        for (int i=0;i<input.length();i++)
+            permutationsHelper(input.substring(0,i)+input.substring(i+1), output+input.charAt(i));
+    }
+	
+    public static void printSubsets(int input[]) {
+		// Write your code here
+       printSubsetsHelper(input,0,new int[0]);
+	}
+    
+    private static void printSubsetsHelper(int[] input, int startIndex, int[] output)
+    {
+        if (startIndex==input.length)
+        {
+            for (int i=0;i<output.length;i++)
+            {
+                System.out.print(output[i]+" ");
+            }
+            System.out.println();
+            return;
+        }
+        
+        int[] newOutput = new int[output.length+1];
+        for (int i=0;i<output.length;i++)
+        {
+            newOutput[i]=output[i];
+        }
+        newOutput[output.length]=input[startIndex];
+        printSubsetsHelper(input,startIndex+1,newOutput);
+        
+        printSubsetsHelper(input,startIndex+1,output);
+    }
+
+
+    
+
+// public static void main(String[] args) {
+//     Scanner s = new Scanner(System.in);
+//     String input = s.nextLine();
+//     permutations(input);
+// }
+	
+	// public static void main(String[] args) {
+	// 	int[] input = takeInput();
+	// 	int k = s.nextInt();
+	// 	printSubsetsSumTok(input, k);
+	// }
     // public static void main(String[] args) {
 	// 	Scanner s = new Scanner(System.in);
 	// 	int input = s.nextInt();
@@ -107,4 +234,4 @@ public class Recusion {
 	// 		System.out.println(output[i]);
 	// 	}
 	// }
-}
+    }
