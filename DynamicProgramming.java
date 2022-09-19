@@ -188,6 +188,57 @@ public class DynamicProgramming {
        return myAns ; 
     }
 
+    
+	public static int lcs(String s, String t) {
+		//Your code goes here
+        if(s.length()==0 || t.length()==0)
+        return 0 ; 
+
+       int ans = 0 ; 
+
+        if(s.charAt(0)==t.charAt(0)) {
+            ans = 1 + lcs(s.substring(1), t.substring(1)) ; 
+        }
+        else {
+            int ans1 = lcs(s.substring(1), t) ; 
+            int ans2 = lcs(s, t.substring(1)) ; 
+            ans = Math.max(ans1, ans2) ;  
+        }
+
+        return ans ; 
+    }
+    
+ 
+
+
+    public static int knapsack(int[] weights, int[] values, int n, int maxWeight) {
+		//Your code goes here
+      return   knapsackI(maxWeight, values, weights) ;
+        
+	}
+
+    public static int knapsackI(int W, int val[], int wt[])  {
+
+		int n = val.length;
+		int[][] dp = new int[n+1][W+1];
+
+		for(int i=n-1; i>=0; i--) {
+		for(int w=0;w<=W;w++) {
+
+			int ans;
+			if(wt[i] <= w) {
+				int ans1 = val[i] + dp[i+1][w-wt[i]];
+				int ans2 = dp[i+1][w];
+				ans = Math.max(ans1, ans2);
+			}else{
+				ans = dp[i+1][w];
+			}
+		dp[i][w] = ans;
+				}
+			}		
+
+			return dp[0][W];
+}
 
 
     // static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -219,35 +270,104 @@ public class DynamicProgramming {
 
 
 
-    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    // static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     
-    public static int[][] take2DInput() throws IOException {
-        String[] strRowsCols = br.readLine().trim().split("\\s");
-        int mRows = Integer.parseInt(strRowsCols[0]);
-        int nCols = Integer.parseInt(strRowsCols[1]);
+    // public static int[][] take2DInput() throws IOException {
+    //     String[] strRowsCols = br.readLine().trim().split("\\s");
+    //     int mRows = Integer.parseInt(strRowsCols[0]);
+    //     int nCols = Integer.parseInt(strRowsCols[1]);
 
-        if (mRows == 0) {
-            return new int[0][0];
-        }
+    //     if (mRows == 0) {
+    //         return new int[0][0];
+    //     }
 
 
-        int[][] mat = new int[mRows][nCols];
+    //     int[][] mat = new int[mRows][nCols];
 
-        for (int row = 0; row < mRows; row++) {
-            String[] strNums; 
-            strNums = br.readLine().trim().split("\\s");
+    //     for (int row = 0; row < mRows; row++) {
+    //         String[] strNums; 
+    //         strNums = br.readLine().trim().split("\\s");
             
-            for (int col = 0; col < nCols; col++) {
-                mat[row][col] = Integer.parseInt(strNums[col]);
-            }
+    //         for (int col = 0; col < nCols; col++) {
+    //             mat[row][col] = Integer.parseInt(strNums[col]);
+    //         }
+    //     }
+
+    //     return mat;
+    // }
+
+    
+
+    class Input {
+        private int n;
+        private int[] weights;
+        private int[] values;
+        private int maxWeight;
+    
+        public Input(int[] weights, int[] values, int n, int maxWeight) {
+            this.n = n;
+            this.weights = weights;
+            this.values = values;
+            this.maxWeight = maxWeight;
         }
-
-        return mat;
+    
+        public int getSize() {
+            return this.n;
+        }
+    
+        public int[] getWeights() {
+            return this.weights;
+        }
+    
+        public int[] getValues() {
+            return this.values;
+        }
+    
+        public int getMaxWeight() {
+            return this.maxWeight;
+        }
     }
-
-
-    public static void main(String[] args) throws NumberFormatException, IOException {
-        int[][] mat = take2DInput();
-        System.out.println(minCostPath(mat));
+    
+     
+    
+        static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    
+        public static Input takeInput() throws NumberFormatException, IOException {
+            
+            int n = Integer.parseInt(br.readLine().trim());
+    
+            if (n == 0) {
+                return (new Input(new int[0], new int[0], 0, 0));
+            }
+    
+            String[] strWeights = br.readLine().trim().split(" ");
+            String[] strValues = br.readLine().trim().split(" ");
+            int maxWeight = Integer.parseInt(br.readLine().trim());
+    
+            int[] weights = new int[n];
+            int[] values = new int[n];
+    
+            for (int i = 0; i < n; i++) {
+                weights[i] = Integer.parseInt(strWeights[i]);
+                values[i] = Integer.parseInt(strValues[i]);
+            }
+    
+            return (new Input(weights, values, n, maxWeight));
+    
+        }
+    
+        public static void main(String[] args) throws NumberFormatException, IOException {
+            
+            Input input = takeInput();
+    
+            int n = input.getSize();
+            int[] weights = input.getWeights();
+            int[] values = input.getValues();
+            int maxWeight = input.getMaxWeight();
+    
+            
+            System.out.println(knapsack(weights, values, n, maxWeight));
+        
     }
+ 
 }
